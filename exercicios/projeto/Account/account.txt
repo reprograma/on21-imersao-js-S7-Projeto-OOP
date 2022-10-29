@@ -1,0 +1,13 @@
+Account
+- numero (privado)
+- agencia (privado)
+- saldo (privado)
+- chavePix
++ criarConta
++ depositar
++ sacar
++ transferir
++ pix 
++ verificar saldo
++ verificar pix
++ criar chave pix

@@ -1,0 +1,6 @@
+Client
+- nome
+- cpf (privado)
+- conta (privado)
+- renda (privado)
++ registrar cliente
