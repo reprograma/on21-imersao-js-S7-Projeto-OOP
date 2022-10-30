@@ -3,11 +3,11 @@ Account
 - agencia (privado)
 - saldo (privado)
 - chavePix
-+ criarConta
++ criarConta*
 + depositar
-+ sacar
++ sacar*
 + transferir
 + pix 
 + verificar saldo
 + verificar pix
-+ criar chave pix
++ criar chave pix*
