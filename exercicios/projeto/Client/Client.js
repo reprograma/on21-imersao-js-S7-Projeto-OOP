@@ -1,4 +1,4 @@
-const Account = require("../Account/Account");
+import Account from'../Account/Account';
 
 class Client{
     name;
