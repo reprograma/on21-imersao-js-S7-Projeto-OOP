@@ -1,0 +1,15 @@
+/**
+ * Client
+ *  - atributos
+ *   - nome
+ *   - cpf -> privado
+ *   - conta -> privado
+ *   - renda -> privado
+ *  - metodos
+ *   - registrar um cliente
+ * 
+ * 
+ * classes
+ * - atributos (propriedade)
+ * - metodos (funções)
+ */
