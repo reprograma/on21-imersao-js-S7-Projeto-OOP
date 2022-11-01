@@ -32,6 +32,16 @@ class Account {
             throw new Error("Não é possivel depositar valores negativos");
         }
     }
+
+    withdraw(value){
+        if (value > this.#balance) {
+            throw new Error("Saldo insuficiente")
+        } else {
+            this.#balance -= value;
+        }
+    }
+
+    
 }
 
 export default Account
