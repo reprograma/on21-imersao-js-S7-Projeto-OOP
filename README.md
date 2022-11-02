@@ -26,7 +26,6 @@ O objetivo do projeto é utilizar o que foi aprendido em OO e em testes. Todas a
 Você foi contratado para fazer uma versão inicial de um sistema bancário. Nessa versão o sistema conta com as seguintes funcionalidades:
 - cadastro de clientes de acordo com a categorização do tipo de conta
 - cadastro de chave pix (email, telefone e cpf)
-- cadastro de novas unidades do banco
 - transações permitidas:
   - saque
   - transferência
@@ -62,7 +61,6 @@ Temos também a opção por transferência, para realizar esta operação é nec
 
 #### Depósito
 O cliente também pode depositar dinheiro em sua conta, passando apenas o valor a ser depositado.
-
 
 ***
 
