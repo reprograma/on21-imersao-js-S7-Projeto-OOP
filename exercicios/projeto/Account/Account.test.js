@@ -83,7 +83,8 @@ describe("Teste de criar conta", () => {
 describe("Teste de criar chave PIX", () => {
   test("Cadastrar PIX e-mail", () => {
     const account = new Account();
-    expect(account.cadastrarChavePix("email", "email@email.com")).toBe(
+    account.cadastrarChavePix("telefone", "(11)12345678");
+    expect(account.cadastrarChavePix("e-mail", "email@email.com")).toBe(
       "Chave PIX e-mail cadastrado."
     );
   });
@@ -95,7 +96,7 @@ describe("Teste de criar chave PIX", () => {
   });
   test("Cadastrar PIX CPF", () => {
     const account = new Account();
-    expect(account.cadastrarChavePix("cpf", "312645978-00")).toBe(
+    expect(account.cadastrarChavePix("CPF", "71414533004")).toBe(
       "Chave PIX CPF cadastrado."
     );
   });

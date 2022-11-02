@@ -1,10 +1,12 @@
-import Pix from "../Pix/Pix.js";
-
 class Account {
   #numeroConta;
   #agencia;
   #saldo;
-  chavePix;
+  chavePix = {
+    email: null,
+    cpf: null,
+    telefone: null,
+  };
 
   // constructor(numeroConta, agencia, saldo) {
   //   this.#numeroConta = numeroConta;
@@ -39,14 +41,29 @@ class Account {
   }
 
   cadastrarChavePix(tipo, chave) {
-    this.chavePix = new Pix();
-    if (tipo === "email") {
-      return this.chavePix.cadastrarChaveEmail(chave);
-    } else if (tipo === "telefone") {
-      return this.chavePix.cadastrarChaveTelefone(chave);
-    } else if (tipo === "cpf") {
-      return this.chavePix.cadastrarChaveCPF(chave);
+    let regex = "";
+    switch (tipo) {
+      case "e-mail":
+        regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        if (regex.test(chave)) {
+          this.chavePix.email = chave;
+        } else throw new Error(`E-mail inválido`);
+        break;
+      case "telefone":
+        this.chavePix.telefone = chave;
+        break;
+      case "CPF":
+        regex =
+          /([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/;
+        if (regex.test(chave)) {
+          this.chavePix.cpf = chave;
+        } else throw new Error(`CPF inválido`);
+
+        break;
+      default:
+        return `Chave PIX inválida`;
     }
+    return `Chave PIX ${tipo} cadastrado.`;
   }
 }
 
