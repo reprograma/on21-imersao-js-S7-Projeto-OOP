@@ -6,13 +6,13 @@ Account
   - pixKey 
 - metodos
   - depositar OK
-  - sacar ENTREGAR NA QUINTA
-  - tranferir ENTREGAR NA QUINTA
-  - pix ENTREGAR NA QUINTA
+  - sacar ENTREGAR NA QUINTA OK 
+  - tranferir ENTREGAR NA QUINTA OK
+  - pix ENTREGAR NA QUINTA OK
   - criar conta OK
   - verificar saldo OK
-  - verificar chave pix (se possivel ENTREGAR NA QUINTA)
-  - atualizar saldo (se possivel ENTREGAR NA QUINTA)
+  - verificar chave pix (se possivel ENTREGAR NA QUINTA) OK
+  - atualizar saldo (se possivel ENTREGAR NA QUINTA) OK
   - criar chave pix OK
 
   pix
