@@ -68,5 +68,38 @@ class Account {
     }
   }
 }
+//atributos - accountNumber - privado, agency, balance, pixKey
+//metodo - depositar, sacar, transferir, pix, criarConta, verificarSaldo, BuscarPixKey, atualizarSaldo, criarPixKey
 
-export default Account;
+// class Account{
+//     #accountNumber
+//     #agency
+//     #balance
+//     pixKey
+
+//     constructor(accountNumber,agency,balance) {
+//         this.#accountNumber = accountNumber
+//         this.#agency = agency
+//         this.#balance = balance
+//     }
+
+//     getBalance() {
+//         return this.#balance
+//     };
+
+//     deposit(value) {
+//         if(!Number) {
+//             throw new Error('Não é possível depositar valores não numéricos')
+
+//         }
+//         if(value > 0) {
+//             return this.#balance += value
+
+//         }else{
+//             throw new Error('Não é possível depositar valores nagativos')
+//         }
+//     };
+
+// }
+
+// export default Account;
