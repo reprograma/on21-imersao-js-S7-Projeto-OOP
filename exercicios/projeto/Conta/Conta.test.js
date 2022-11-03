@@ -168,7 +168,6 @@ describe('Testes do método verificarChavePix', () => {
     })
 
 })
-
 describe('Testes do método Pix', ()=>{
     test('Pix realizado com sucesso', ()=>{
         const conta = new Conta('3330', '895-89', 6000)
