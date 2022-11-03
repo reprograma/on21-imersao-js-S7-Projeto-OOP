@@ -4,10 +4,10 @@ Account
 - saldo (privado)
 - chavePix
 + criarConta*
-+ depositar
++ depositar*
 + sacar*
-+ transferir
-+ pix 
-+ verificar saldo
-+ verificar pix
++ transferir*
++ pix*
++ verificar saldo*
++ verificar pix*
 + criar chave pix*
