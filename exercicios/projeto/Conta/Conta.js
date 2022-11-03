@@ -50,14 +50,15 @@ export default class Conta {
         }
     }
 
-    transferir(valor, conta) {
+    transferir(valor, conta, cpf) {
         if (valor < 0) {
             throw new Error('Insira um valor numérico válido.')
         } else if (typeof valor !== 'number') {
             throw new Error('Insira um valor numérico válido.')
-        } 
-        
-        
+        } else if (conta === undefined || cpf === undefined || valor === undefined) {
+            throw new Error('Para realizar a transferência é necessário preencher todos os parâmetros com valores válidos.')
+        }
+
         if (conta instanceof Conta) {
             if (valor <= this.#saldo) {
                 this.sacar(valor)
@@ -71,14 +72,18 @@ export default class Conta {
     }
 
     criarChavePix(tipo, valor) {
-        if (tipo === 'cpf') {
-            return this.chavePix.cpf = valor
-        } else if (tipo === 'email') {
-            return this.chavePix.email = valor
-        } else if (tipo === 'telefone') {
-            return this.chavePix.telefone = valor
+        if (this.chavePix.cpf === valor || this.chavePix.email === valor || this.chavePix.telefone === valor) {
+            throw new Error('Chave pix já cadastrada.')
         } else {
-            throw new Error('Não foi possível gerar uma chave pix.')
+            if (tipo === 'cpf') {
+                return this.chavePix.cpf = valor
+            } else if (tipo === 'email') {
+                return this.chavePix.email = valor
+            } else if (tipo === 'telefone') {
+                return this.chavePix.telefone = valor
+            } else {
+                throw new Error('Não foi possível gerar uma chave pix.')
+            }
         }
     }
 
@@ -94,12 +99,29 @@ export default class Conta {
         }
     }
 
-    atualizarSaldo() {
-        // codigo
-    }
+    pix(valor, conta, chavePix) {
+        if (valor < 0) {
+            throw new Error('Insira um valor numérico válido.')
+        } else if (typeof valor !== 'number') {
+            throw new Error('Insira um valor numérico válido.')
+        } else if (conta === undefined || chavePix === undefined || valor === undefined) {
+            throw new Error('Para realizar o pix é necessário preencher todos os parâmetros com valores válidos.')
+        }
 
-    pix(valor, chavePix) {
-
+        if (conta instanceof Conta) {
+            if (chavePix === conta.chavePix.cpf || chavePix === conta.chavePix.email || chavePix === conta.chavePix.telefone) {
+                if (valor <= this.#saldo) {
+                    this.sacar(valor)
+                    conta.depositar(valor)
+                } else {
+                    throw new Error('Saldo Insuficiente.')
+                }
+            } else {
+                throw new Error('Não foi possível realizar o pix. Verifique a chave e tente novamente.')
+            }
+        } else {
+            throw new Error('Não foi possível realizar o pix.')
+        }
     }
 
 
@@ -107,4 +129,3 @@ export default class Conta {
 
 
 
-const contaMaria = new Conta('001', '052-2', 10_000)

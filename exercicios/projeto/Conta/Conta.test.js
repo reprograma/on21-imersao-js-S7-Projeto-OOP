@@ -54,7 +54,7 @@ describe('Testes do método Transferir', () => {
     test('Transferir 500 reais', () => {
         const conta = new Conta(7, 7, 1000)
         const conta2 = new Conta(8, 8, 2000)
-        conta.transferir(500, conta2)
+        conta.transferir(500, conta2, '123456789')
         expect(conta.saldo).toEqual(500)
         expect(conta2.saldo).toBe(2500)
     })
@@ -62,7 +62,7 @@ describe('Testes do método Transferir', () => {
     test('Transferência inválida: Saldo insuficiente', () => {
         const conta = new Conta(1, 1, 0)
         const conta2 = new Conta(2, 2, 1000)
-        expect(() => conta.transferir(500, conta2)).toThrow('Saldo Insuficiente.')
+        expect(() => conta.transferir(500, conta2, '123456789')).toThrow('Saldo Insuficiente.')
         expect(conta.saldo).toEqual(0)
         expect(conta2.saldo).toBe(1000)
     })
@@ -70,7 +70,7 @@ describe('Testes do método Transferir', () => {
     test('Transferir valor inválido: Valor não numérico', () => {
         const conta = new Conta(7, 7, 1000)
         const conta2 = new Conta(8, 8, 2000)
-        expect(() => conta.transferir('banana', conta2)).toThrow('Insira um valor numérico válido.')
+        expect(() => conta.transferir('banana', conta2, '123456789')).toThrow('Insira um valor numérico válido.')
         expect(conta.saldo).toEqual(1000)
         expect(conta2.saldo).toBe(2000)
     })
@@ -78,21 +78,45 @@ describe('Testes do método Transferir', () => {
     test('Transferir valor inválido: Valor negativo', () => {
         const conta = new Conta(7, 7, 1000)
         const conta2 = new Conta(8, 8, 2000)
-        expect(() => conta.transferir(-200, conta2)).toThrow('Insira um valor numérico válido.')
+        expect(() => conta.transferir(-200, conta2, '123456789')).toThrow('Insira um valor numérico válido.')
         expect(conta.saldo).toEqual(1000)
         expect(conta2.saldo).toBe(2000)
     })
     test('Transferir conta inválida: Conta inexistente', () => {
         const conta = new Conta(9, 9, 3000)
         const contaFake = ''
-        expect(() => conta.transferir(500, contaFake)).toThrow('Não foi possível realizar a transferência')
+        expect(() => conta.transferir(500, contaFake, '123456789')).toThrow('Não foi possível realizar a transferência')
         expect(conta.saldo).toEqual(3000)
     })
     test('Transferir conta inválida: Conta que não é instância de Conta', () => {
         const conta = new Conta(1, 1, 2000)
         const contaFake = 'fake'
-        expect(() => conta.transferir(500, contaFake)).toThrow('Não foi possível realizar a transferência')
+        expect(() => conta.transferir(500, contaFake, '123456789')).toThrow('Não foi possível realizar a transferência')
         expect(conta.saldo).toBe(2000)
+    })
+
+    test('Transferência sem o parâmetro CPF', ()=>{
+        const conta = new Conta(7, 7, 1000)
+        const conta2 = new Conta(8, 8, 2000)
+        expect(() => conta.transferir(100, conta2)).toThrow('Para realizar a transferência é necessário preencher todos os parâmetros com valores válidos.')
+        expect(conta.saldo).toEqual(1000)
+        expect(conta2.saldo).toBe(2000)
+    })
+    
+    test('Transferência sem o parâmetro Valor', ()=>{
+        const conta = new Conta(7, 7, 1000)
+        const conta2 = new Conta(8, 8, 2000)
+        expect(() => conta.transferir(100, conta2)).toThrow('Para realizar a transferência é necessário preencher todos os parâmetros com valores válidos.')
+        expect(conta.saldo).toEqual(1000)
+        expect(conta2.saldo).toBe(2000)
+    })
+
+    test('Transferência sem o parâmetro Conta do destintário', ()=>{
+        const conta = new Conta(7, 7, 1000)
+        const conta2 = new Conta(8, 8, 2000)
+        expect(() => conta.transferir(100, '12658794')).toThrow('Para realizar a transferência é necessário preencher todos os parâmetros com valores válidos.')
+        expect(conta.saldo).toEqual(1000)
+        expect(conta2.saldo).toBe(2000)
     })
 })
 describe('Testes do método criarChavePix', () => {
@@ -111,6 +135,11 @@ describe('Testes do método criarChavePix', () => {
     test('Teste chave pix de tipo inválido', () => {
         const conta = new Conta(1, 1, 5000)
         expect(() => conta.criarChavePix('banana')).toThrow('Não foi possível gerar uma chave pix.')
+    })
+    test('Teste cadastrar a mesma chave pix', ()=>{
+        const conta = new Conta(2, 2, 5000)
+        conta.criarChavePix('email', 'email@gmail.com')
+        expect(()=> conta.criarChavePix('email', 'email@gmail.com')).toThrow('Chave pix já cadastrada.')
     })
 })
 describe('Testes do método verificarChavePix', () => {
@@ -137,5 +166,58 @@ describe('Testes do método verificarChavePix', () => {
         const conta = new Conta('001', '028-8', 50000)
         expect(() => conta.verificarChavePix('banana')).toThrow('Não foi possível concluir sua solicitação. Tente novamente')
     })
+
+})
+
+describe('Testes do método Pix', ()=>{
+    test('Pix realizado com sucesso', ()=>{
+        const conta = new Conta('3330', '895-89', 6000)
+        conta.criarChavePix('cpf', '123456789')
+        const conta2 = new Conta('699', '655-6', 3000)
+        conta2.pix(50, conta, '123456789' )
+        expect(conta.saldo).toBe(6050)
+        expect(conta2.saldo).toBe(2950)
+    })
+    test('Pix faltando o parâmetro: chavePix', ()=>{
+        const conta = new Conta('3330', '895-89', 6000)
+        conta.criarChavePix('cpf', '123456789')
+        const conta2 = new Conta('699', '655-6', 3000)
+        expect(()=> conta2.pix(50, conta)).toThrow('Para realizar o pix é necessário preencher todos os parâmetros com valores válidos.')
+        expect(conta.saldo).toBe(6000)
+        expect(conta2.saldo).toBe(3000)
+    })
+    test('Pix faltando o parâmetro: conta', ()=>{
+        const conta = new Conta('3330', '895-89', 6000)
+        conta.criarChavePix('cpf', '123456789')
+        const conta2 = new Conta('699', '655-6', 3000)
+        expect(()=> conta2.pix(50, '123456789')).toThrow('Para realizar o pix é necessário preencher todos os parâmetros com valores válidos.')
+        expect(conta.saldo).toBe(6000)
+        expect(conta2.saldo).toBe(3000)
+    })
+    test('Pix faltando o parâmetro: valor', ()=>{
+        const conta = new Conta('3330', '895-89', 6000)
+        conta.criarChavePix('cpf', '123456789')
+        const conta2 = new Conta('699', '655-6', 3000)
+        expect(()=> conta2.pix(conta2, '123456789')).toThrow('Insira um valor numérico válido.')
+        expect(conta.saldo).toBe(6000)
+        expect(conta2.saldo).toBe(3000)
+    })
+    test('Pix chave incorreta', ()=>{
+        const conta = new Conta('3330', '895-89', 6000)
+        conta.criarChavePix('cpf', '12356789')
+        const conta2 = new Conta('699', '655-6', 3000)
+        expect(()=> conta2.pix(100, conta2, '123')).toThrow('Não foi possível realizar o pix. Verifique a chave e tente novamente.')
+        expect(conta.saldo).toBe(6000)
+        expect(conta2.saldo).toBe(3000)
+    })
+    test('Pix sem ser instância de conta', ()=>{
+        const conta = ''
+        const conta2 = new Conta('9898', '265-7', 3000)
+        expect(()=> conta2.pix(1000, conta, '123456789')).toThrow('Não foi possível realizar o pix.')
+        expect(conta2.saldo).toBe(3000)
+    })
+
+  
+
 
 })
