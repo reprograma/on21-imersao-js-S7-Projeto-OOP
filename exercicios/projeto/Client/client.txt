@@ -11,3 +11,7 @@
 // classes
 // - atributos (propriedade)
 // - metodos (funcoes)
+
+
+Categorias clientes - Standard  / Gold / Premium  - FEITO
+
