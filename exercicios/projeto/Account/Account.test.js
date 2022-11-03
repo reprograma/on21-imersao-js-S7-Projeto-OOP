@@ -17,63 +17,107 @@ describe("Teste da classe Account", () => {
   // negativo -> deposito com valor negativo
   test("deposito com valor de -100", () => {
     const account = new Account(1, 1, 1000);
-    expect(() => account.deposit(-100)).toThrow("Não é possível depositar valores negativos");
+    expect(() => account.deposit(-100)).toThrow(
+      "Não é possível depositar valores negativos"
+    );
     expect(account.getBalance()).toBe(1000);
   });
 
   // negativo -> deposito com valor não numérico
   test("deposito com valor não númérico", () => {
     const account = new Account(1, 1, 500);
-    expect(() => account.deposit("")).toThrow("Não é possível depositar valores não numéricos");
+    expect(() => account.deposit("")).toThrow(
+      "Não é possível depositar valores não numéricos"
+    );
     expect(account.getBalance()).toBe(500);
   });
 
   test("instaciar conta com valores válidos", () => {
-    const account = new Account('12345', '0001', 1000);
+    const account = new Account("12345", "0001", 1000);
     expect(account.getBalance()).toBe(1000);
-    expect(account.getAccountNumber()).toBe('12345');
-    expect(account.getAgency()).toBe('0001');
+    expect(account.getAccountNumber()).toBe("12345");
+    expect(account.getAgency()).toBe("0001");
   });
 
   // caso positivo -> dados válidos
   test("criar conta de com dados válidos", () => {
     // numero conta (5 digitos) agencia (4 digitos) e saldo (numero positivo)
     const account = new Account();
-    expect(account.createAccount("12345", "0001", 500)).toBe("Conta criada com sucesso");
+    expect(account.createAccount("12345", "0001", 500)).toBe(
+      "Conta criada com sucesso"
+    );
     expect(account.getBalance()).toBe(500);
-    expect(account.getAccountNumber()).toBe('12345');
-    expect(account.getAgency()).toBe('0001');
+    expect(account.getAccountNumber()).toBe("12345");
+    expect(account.getAgency()).toBe("0001");
   });
 
   // caso negativo -> algum dado inválido
   test("criar conta com dados inválidos", () => {
     const account = new Account();
-    expect(() => account.createAccount("1234", "0001", 300)).toThrow("Dados inválidos para cadastro");
+    expect(() => account.createAccount("1234", "0001", 300)).toThrow(
+      "Dados inválidos para cadastro"
+    );
   });
 
   // criar chave pix cpf
   test("criar chave pix cpf com sucesso", () => {
     const account = new Account();
-    expect(account.createPixKey("37761514046", "CPF")).toBe("Chave pix cpf criada com sucesso");
+    expect(account.createPixKey("37761514046", "CPF")).toBe(
+      "Chave pix cpf criada com sucesso"
+    );
     expect(account.pixKeys.cpf).toBe("37761514046");
   });
 
   // criar chave pix email
   test("criar chave pix email com sucesso", () => {
     const account = new Account();
-    expect(account.createPixKey("teste@reprograma.com.br", "EMAIL")).toBe("Chave pix email criada com sucesso");
+    expect(account.createPixKey("teste@reprograma.com.br", "EMAIL")).toBe(
+      "Chave pix email criada com sucesso"
+    );
     expect(account.pixKeys.email).toBe("teste@reprograma.com.br");
   });
 
-  // criar chave pix telefone
+  // // criar chave pix telefone
   test("criar chave pix telefone com sucesso", () => {
     const account = new Account();
-    expect(account.createPixKey("11912345678", "TELEFONE")).toBe("Chave pix telefone criada com sucesso");
+    expect(account.createPixKey("11912345678", "TELEFONE")).toBe(
+      "Chave pix telefone criada com sucesso"
+    );
   });
 
   // criar chave pix invalido
   test("criar chave pix cpf inválido", () => {
     const account = new Account();
-    expect(() => account.createPixKey("3776", "CPF")).toThrow("Erro, cpf inválido");
+    expect(() => account.createPixKey("3776", "CPF")).toThrow(
+      "Erro, cpf inválido"
+    );
   });
+
+  test("saque com valor de 100 reais", () => {
+    const account = new Account(1, 1, 1530);
+    account.saque(130);
+
+    expect(account.getBalance()).toBe(1400);
+  });
+});
+
+test("Atualizar saldo ", () => {
+  const account = new Account(1, 1, 1500);
+
+  account.setBalance(600);
+
+  expect(account.getBalance()).toBe(600);
+});
+
+test("Transferencia de valores ", () => {
+  const account = new Account(1, 1, 1500);
+  const accountSecundaria = new Account(2, 2, 1000);
+
+  expect(account.transfer(accountSecundaria, 10826575498, 50)).toBe(
+    "Transferência realizada com sucesso"
+  );
+
+  console.log(
+    "Novo saldo da conta secundária: " + accountSecundaria.getBalance()
+  );
 });
