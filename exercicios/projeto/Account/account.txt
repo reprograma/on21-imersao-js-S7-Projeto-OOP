@@ -1,0 +1,25 @@
+Account
+-atributos
+    - accountNumber > privado
+    -agency > privado
+    -balance > privado
+    -pixKey
+
+-Metodos
+    -depositar
+    -sacar 
+    -transferir
+    -pix
+    -criar conta
+    -verificar saldo
+    -verificar chave pix
+    -atualizar saldo
+    -criar chave pix
+
+
+pix
+-createPix();
+    -Todas as chaves são de texto
+    -chave ser email
+    -chave ser telefone
+    -chave ser cpf
