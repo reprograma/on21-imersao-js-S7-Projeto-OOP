@@ -6,7 +6,6 @@ describe("Teste da classe Account", () => {
     expect(account instanceof Account).toBe(true);
   });
 
-  // positivo -> deposito com valor positivo
   test("deposito com valor de 100 reais", () => {
     const account = new Account(1, 1, 1000);
     account.deposit(100);
@@ -14,14 +13,12 @@ describe("Teste da classe Account", () => {
     expect(account.getBalance()).toBe(1100);
   });
 
-  // negativo -> deposito com valor negativo
   test("deposito com valor de -100", () => {
     const account = new Account(1, 1, 1000);
     expect(() => account.deposit(-100)).toThrow("Não é possível depositar valores negativos");
     expect(account.getBalance()).toBe(1000);
   });
 
-  // negativo -> deposito com valor não numérico
   test("deposito com valor não númérico", () => {
     const account = new Account(1, 1, 500);
     expect(() => account.deposit("")).toThrow("Não é possível depositar valores não numéricos");
@@ -35,9 +32,7 @@ describe("Teste da classe Account", () => {
     expect(account.getAgency()).toBe('0001');
   });
 
-  // caso positivo -> dados válidos
   test("criar conta de com dados válidos", () => {
-    // numero conta (5 digitos) agencia (4 digitos) e saldo (numero positivo)
     const account = new Account();
     expect(account.createAccount("12345", "0001", 500)).toBe("Conta criada com sucesso");
     expect(account.getBalance()).toBe(500);
@@ -45,35 +40,63 @@ describe("Teste da classe Account", () => {
     expect(account.getAgency()).toBe('0001');
   });
 
-  // caso negativo -> algum dado inválido
   test("criar conta com dados inválidos", () => {
     const account = new Account();
     expect(() => account.createAccount("1234", "0001", 300)).toThrow("Dados inválidos para cadastro");
   });
 
-  // criar chave pix cpf
   test("criar chave pix cpf com sucesso", () => {
     const account = new Account();
     expect(account.createPixKey("37761514046", "CPF")).toBe("Chave pix cpf criada com sucesso");
     expect(account.pixKeys.cpf).toBe("37761514046");
   });
 
-  // criar chave pix email
   test("criar chave pix email com sucesso", () => {
     const account = new Account();
     expect(account.createPixKey("teste@reprograma.com.br", "EMAIL")).toBe("Chave pix email criada com sucesso");
     expect(account.pixKeys.email).toBe("teste@reprograma.com.br");
   });
 
-  // criar chave pix telefone
   test("criar chave pix telefone com sucesso", () => {
     const account = new Account();
-    expect(account.createPixKey("11912345678", "TELEFONE")).toBe("Chave pix telefone criada com sucesso");
+    expect(account.createPixKey("11912345678", "TELEFONE")).toMatch("Chave pix telefone criada com sucesso");
   });
 
-  // criar chave pix invalido
   test("criar chave pix cpf inválido", () => {
     const account = new Account();
     expect(() => account.createPixKey("3776", "CPF")).toThrow("Erro, cpf inválido");
   });
+
+  test('sacar com valor maior que saldo', () => {
+    const account = new Account(1, 1, 1000)
+    expect(() => account.withdraw(1500)).toThrow('Saldo insuficiente');
+    expect(account.getBalance()).toBe(1000)
+  })
+
+  test('verificar a chave pix', () => {
+    const account = new Account(1, 1, 1000)
+    account.createPixKey('37761514046', 'CPF')
+    expect(account.pixKeys.cpf).toBe('37761514046')
+  })
+
+  test('verificar se a chave pix digitada é igual a registrada', () => {
+    const account = new Account(1, 1, 1000)
+    account.createPixKey('37761514046', 'CPF')
+    expect(account.pixKeys.cpf).toBe('37761514046')
+    expect(account.pixKeys.cpf).not.toBe('37761514047')
+  })
+
+  test('realizar transferencia', () => {
+    const account = new Account(1, 1, 1000)
+    const account2 = new Account(2, 2, 1000)
+    account.transfer(500, account2)
+    expect(account.getBalance()).toBe(500)
+    expect(account2.getBalance()).toBe(1500)
+  })
+
+  test('atulizar o saldo', () => {
+    const account = new Account(1, 1, 1000)
+    account.updateBalance(1000)
+    expect(account.getBalance()).toBe(2000)
+  })
 });
