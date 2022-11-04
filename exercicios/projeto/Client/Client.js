@@ -36,8 +36,8 @@ export class Client {
     if (account instanceof Account) {
       this.name = name
       this._cpf = cpf
-      this.#account = account
-      this.#income = income
+      this.account = account
+      this.income = income
       return "Registered Client."
     } else {
       throw new Error('Registration error. Invalid data.')
