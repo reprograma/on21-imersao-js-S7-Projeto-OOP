@@ -31,17 +31,6 @@ export class CategoryAccount extends Account {
     return this.#transactionLimit = newTransactionLimit
   }
 
-  deposit(amount) {
-    if (typeof amount !== 'number') {
-      throw new Error('Non-numeric values ​​not allowed for deposit.')
-    }
-    if (amount > 0) {
-      this.balance += amount
-      return `New Balance after deposit: ${this.balance}`
-    } else {
-      throw new Error("It is not possible to deposit negative values.")
-    }
-  }
 
   withdrawal(amount) {
     if (typeof amount !== 'number') {
@@ -59,47 +48,6 @@ export class CategoryAccount extends Account {
     }
     this.balance -= amount
     this.transactionLimit -= amount
-  }
-
-  transferTo(anotherAccount, cpf, amount) {
-    if (this.balance < amount) {
-      throw new Error('Error!!! Insufficient balance to perform transfer transaction.')
-    }
-    if (amount < 0) {
-      throw new Error('Error!!! It is not possible to transfer negative values.')
-    }
-    if (typeof amount !== 'number') {
-      throw new Error('Non-numeric values ​​not allowed for transfer.')
-    }
-    if (anotherAccount.client.cpf === cpf) {
-      this.withdrawal(amount)
-      console.log(`Origin account balance: $ ${this.balance}`)
-      anotherAccount.deposit(amount)
-      console.log(`Destination account balance: $ ${anotherAccount.balance}`)
-    } else {
-      throw new Error('Invalid cpf provided. Please check and try again!')
-    }
-  }
-
-  transferByPixTo(anotherAccount, pixKey, amount) {
-    if (this.balance < amount) {
-      throw new Error('Error!!! Insufficient balance to perform pix transaction.')
-    }
-    if (amount < 0) {
-      throw new Error('Pix Error!!! It is not possible to transfer negative values.')
-    }
-    if (typeof amount !== 'number') {
-      throw new Error('Non-numeric values ​​not allowed for transfer.')
-    }
-    const existKey = Object.values(anotherAccount.pixKeys).find(key => key === pixKey)
-    if (existKey) {
-      this.withdrawal(amount)
-      console.log(`Origin account balance after pix transaction: $ ${this.balance}`)
-      anotherAccount.deposit(amount)
-      console.log(`Destination account balance after pix transaction: $ ${anotherAccount.balance}`)
-    } else {
-      throw new Error('Invalid key provided. Please check and try again!')
-    }
   }
 }
 
