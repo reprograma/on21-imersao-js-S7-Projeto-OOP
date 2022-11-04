@@ -27,6 +27,10 @@ import Client from './Client.js';
 import Account from '../Account/Account.js'
 
 describe('Teste da classe Client', () => {
+    const client = new Client();
+    const account = new Account()
+
+
     test('verificar se instância do Client é feita corretamente', () => {
         const client = new Client('raissa',1059173738, 123, 10000);
         //instaceof - variavelDaInstancai intanceof ClasseEmQuestao / retorna true ou false 
@@ -37,15 +41,27 @@ describe('Teste da classe Client', () => {
     });
         //caso positivo e caso negativo(sem foco nos casos de borda dessa vez)
     test('cadastrar cliente com dados válidos', () => {
-        const client = new Client();
-        const account = new Account()
         //metodo que eu quero testar
-        expect(client.registerClient('raissa', 1059173738, account, 10000)).toBe('cliente cadastrado')
+        expect(client.registerClient('raissa', 1059173738, account, 10000)).toBe('Cliente cadastrado')
         
     });
     test('cadastrar cliente com dados inválidos', () => {
-        const client = new Client();
         //quando vamos retornar um throw error no nosso método precisamos colocar nosso expect uma arrow function
-        expect(() => client.registerClient('raissa', 1059173738, 'nao conta', 10000)).toThrow('erro no cadastro, Dados inválidos')      
+        expect(() => client.registerClient('raissa', 1059173738, 'nao conta', 10000)).toThrow('Erro no cadastro, dados inválidos')      
+    })
+
+    test("validar tipo cliente Standard R$4999,99 de renda mensal",()=>{
+        client.registerClient("Raissa Barata", "12345678902", account, 4999.99);
+        expect(client.clientCategory()).toBe("Cliente Standard")
+    })
+
+    test("validar tipo cliente Gold, R$5000,00 até R$17.999,99 de renda mensal",()=>{
+        client.registerClient("Raissa Barata", "12345678902", account, 6500);
+        expect(client.clientCategory()).toBe("Cliente Gold")
+    })
+
+    test("validar tipo cliente Premium, 18.000,00 de renda mensal",()=>{
+        client.registerClient("Raissa Barata", "12345678902", account, 19000);
+        expect(client.clientCategory()).toBe("Cliente Premium")
     })
 })
