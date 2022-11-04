@@ -36,6 +36,28 @@ class Account {
     }
   }
 
+  constructor(accountNumber, agency, balance){
+    this.#accountNumber = accountNumber;
+    this.#agency = agency;
+    this.#balance = balance;
+    this.pixKeys = {
+      cpf: undefined,
+      email: undefined,
+      telefone: undefined,
+    }
+  }
+
+  createAccount(accountNumber, agency, balance){
+    if(accountNumber.length === 5 && agency.length === 4 && balance > 0){
+      this.#accountNumber = accountNumber;
+      this.#agency = agency;
+      this.#balance = balance;
+      return "Conta criada com sucesso!"
+    } else {
+      throw new Error("Dados inválidos");
+    }
+  }
+
   getBalance() {
     return this.balance;
   }
@@ -61,6 +83,14 @@ class Account {
   setBalance(value) {
     this.balance += value;
     return this.balance;
+  }
+
+  getAgency() {
+    return this.#agency;
+  }
+
+  getAccountNumber() {
+    return this.#accountNumber;
   }
 
   deposit(value) {
@@ -169,6 +199,42 @@ class Account {
     } else {
       throw new Error("Você não possui saldo suficiente");
     }
+  }
+}
+
+createPixKey(keyValue, keyType){
+  switch(keyType){
+      case "CPF":
+          let regex = /([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})/
+          if(regex.test(keyValue)){
+              this.pixKeys.cpf = keyValue;
+              return "Chave pix cpf criada com sucesso";
+          }else {
+              throw new Error("Erro CPF inválido");
+          }
+      case "EMAIL":
+          this.pixKeys.email = keyValue;
+          return "Chave pix email criada com sucesso";
+      case "TELEFONE":
+          this.pixKeys.telefone = keyValue;
+          return "Chave pix telefone criada com sucesso";
+      default:
+          return "Tipo de chave inexistente"
+  }
+}
+
+transferTo(cpf, othercount, valor) {
+  if (this.cpf === cpf) {
+      this.verificarValor(valor);
+      if (this.#balance >= valor) {
+          this.#balance -= valor;
+          othercount.deposito(valor);
+          return "Transferência realizada com sucesso!"
+      } else {
+          throw new Error("Saldo insuficiente!");
+      }
+  } else {
+      throw Error('Cpf inválido!')
   }
 }
 

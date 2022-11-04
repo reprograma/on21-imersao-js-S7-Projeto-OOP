@@ -35,7 +35,7 @@ describe("Teste da classe Account", () => {
 
   // negativo -> deposito com valor não numérico
   test("deposito com valor não númérico", () => {
-    const account = new Account(1, 1, 500);
+    const account = new Account(1, 1, 200);
     expect(() => account.deposit("")).toThrow("Não é possível depositar valores não numéricos");
     expect(account.getBalance()).toBe(500);
     

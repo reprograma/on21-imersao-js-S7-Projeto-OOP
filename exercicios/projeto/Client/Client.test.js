@@ -12,7 +12,7 @@ describe("Teste da classe Client", () => {
   test("cadastrar cliente com dados válidos", () => {
     const client = new Client();
     const account = new Account();
-    expect(client.registerClient("Ana", "1234567908", account, 5000)).toBe("Cliente cadastrado");
+    expect(client.registerClient("Ana", "1234567908", account, 4000)).toBe("Cliente cadastrado");
   });
 
   test("cadastrar cliente com dados inválidos", () => {
