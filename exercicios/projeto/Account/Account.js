@@ -31,46 +31,6 @@ class Account {
         }
    }
 
-   /**
-    createAccount(accountNumber, agency, balance) {
-        if (!this.Client.cpf) {
-            switch (this.income) {
-                case this.income <= 4999.99:
-                    this.#accountNumber = accountNumber;
-                    this.#agency = agency;
-                    this.#balance = balance;
-                    this.accountType = 'Standard';
-                    this.transactionLimit = 1000;
-
-                    console.log("Conta cadastrada no tipo Standard");
-                    break;
-                
-                case this.income >= 5000  && this.income <= 17999.99:
-                    this.#accountNumber = accountNumber;
-                    this.#agency = agency;
-                    this.#balance = balance;
-                    this.accountType = 'Gold';
-                    this.transactionLimit = 5000;
-
-                    console.log("Conta cadastrada no tipo Gold");
-                    break;
-
-                case this.income >18000.00:
-                    this.#accountNumber = accountNumber;
-                    this.#agency = agency;
-                    this.#balance = balance;
-                    this.accountType = 'Premium';
-    
-                    console.log("Conta cadastrada no tipo Premium");
-                    break;
-            }
-                
-        } else {
-            throw new Error("Erro no cadastro da conta, este cliente já possui uma conta cadastrada")
-        }
-    }
-    */
-
     getBalance() {
         return this.#balance;
     }

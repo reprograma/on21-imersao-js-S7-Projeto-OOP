@@ -7,31 +7,8 @@ describe("teste da classe account", () => {
         expect(account instanceof Account).toBe(true)
     })
 
-    /**
-     * 
-    it ("deve cadastrar contas standard", () => {
-        const client = new Client('Maria', "78965412365", 2300);
-        const account = new Account();
-        expect(account.createAccount(client, 12, 123, 1000, 'sw152ad')).toBe("Conta cadastrada no tipo Standard")
-    })
-
-    it ("deve cadastrar conta com dados inválidos", () => {
-        const account = new Account();
-        const client = new Client('Maria', "78965412365", account, 5500);
-        expect(account.createAccount(client, 12, 123, 1000, 'sw152ad')).toBe("Conta cadastrada no tipo Gold")
-//        expect(() => account.createAccount(client, 12, 123, '245', 'sw152ad')).toThrow("Erro no cadastro da conta, este cliente já possui uma conta cadastrada")
-    })
-
-    it ("deve cadastrar conta com dados válidos", () => {
-        const account = new Account();
-        const client = new Client('Maria', "78965412365", account, 23000);
-        expect(account.createAccount(client, 12, 123, 1000, 'sw152ad')).toBe("Conta cadastrada no tipo Premiun")
-    })
-    *//
-
     //criar conta
     //positivo
-
     it ('inicialização conta com dados validos', () => {
         //numero da conta (5 digitos) agencia (4 digitos) e saldo numero positivo
         const account = new Account("98745", "0005", 1000 )
@@ -68,7 +45,6 @@ describe("teste da classe account", () => {
     })
 
     // negativo => deposito com valor negativo
-
     it ('deposito com o valor de -100', () => {
         const account = new Account(1, 1, 1000);
         expect(() => account.deposit(-100)).toThrow('Não é possivel depositar valores negativos');
@@ -82,7 +58,6 @@ describe("teste da classe account", () => {
         expect(() => account.deposit("")).toThrow('Não é possivel depositar valores não numericos');
         expect(account.getBalance()).toBe(1000)
     })
-
 
     // criar chave pix cpf
     it ('Criar chave pix cpf com sucesso', () => {
