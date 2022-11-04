@@ -1,0 +1,24 @@
+Account 
+- atributos
+  - accountNumber -> privado 
+  - agency -> privado
+  - balance -> privado
+  - pixKey 
+  
+- Métodos (caraterísticas)
+  -depositar ok
+  -sacar  ok
+  -transferir  ok
+  -pix   = entregar na quinta  
+  -criar conta  ok 
+  -verificar saldo ok
+  -verificar chave pix ok 
+  -atualizar saldo ok
+  -criar chave pix  ok
+  
+  Pix - 
+   createPIX
+  - email
+  - telefone
+  - cpf 
+  chave pix invalido
