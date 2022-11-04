@@ -30,11 +30,12 @@ describe("Teste da classe Client", () => {
     expect(client.transactionLimit).toBe(1000);
   });
 
-  test("registrar categoria GOLD e limite R$5000,00", () => {
-    client.registerClient("Maria", "1234567908", account, 6000);
+  test("registrar categoria GOLD excedida ", () => {
+    client.registerClient("Maria", "1234567908", account, 15000);
     expect(client.typeAccount).toBe("GOLD");
     expect(client.transactionLimit).toBe(5000);
   });
+
 
   test("registrar categoria PREMIUM sem limite de transação", () => {
    
