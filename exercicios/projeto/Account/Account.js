@@ -8,12 +8,6 @@ class Account {
     TELEFONE: null,
   };
 
-  // constructor(numeroConta, agencia, saldo) {
-  //   this.#numeroConta = numeroConta;
-  //   this.#agencia = agencia;
-  //   this.#saldo = saldo;
-  // }
-
   createAccount(numeroConta, agencia, saldo) {
     if (numeroConta.length == 5 && agencia.length == 3 && saldo > 0) {
       this.#numeroConta = numeroConta;
@@ -45,7 +39,7 @@ class Account {
 
   withdrawal(value) {
     if (typeof value === "number") {
-      if (this.#saldo > value) {
+      if (this.#saldo >= value) {
         this.#saldo = this.#saldo - value;
       } else throw new Error("Valor de saque não permitido.");
     } else throw new Error("Valor de saque inválido.");
@@ -53,7 +47,7 @@ class Account {
 
   transfer(account, value) {
     if (account instanceof Account && typeof value === "number") {
-      if (value < this.#saldo) {
+      if (value <= this.#saldo) {
         this.withdrawal(value);
         account.deposit(value);
       } else throw new Error("Saldo insuficiente para transferência.");
@@ -91,7 +85,7 @@ class Account {
 
   transferPIX(account, type, value) {
     if (account instanceof Account && typeof value === "number") {
-      if (value < this.balance) {
+      if (value <= this.balance) {
         if (account.chavePix[type]) {
           this.withdrawal(value);
           account.deposit(value);
