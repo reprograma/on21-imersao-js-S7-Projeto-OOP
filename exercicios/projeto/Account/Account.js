@@ -31,99 +31,81 @@ class Account {
 
   }
 
-
-
-  createPixKey(KeyValue, KeyType) {
-    switch (KeyType) {
-      case "CPF":
-        var regex = /([0-9]{2}[.]?[0-9]{3}[.]?[0-9]{3}[/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[.]?[0-9]{3}[.]?[0-9]{3}[-]?[0-9]{2})/;
-
-        if (regex.test(KeyValue)) {
-          this.pixKeys.cpf = KeyValue;
-          return "Chave pix cpf criado com sucesso"
-        }
-       else {
-         throw new Error("Erro, cpf inválido");
-       }
-      case "EMAIL":
-        var emailRegex = /^[a-z0-9.]+@[a-z0-9]+.[a-z]+.([a-z]+)?$/i;
-
-        if (emailRegex.test(KeyValue)) {
-          this.pixKeys.email = KeyValue;
-          return "Chave pix email criado com sucesso"
-        }
-        else {
-          throw new Error("Erro, email inválido");
-        }
-      
-      case "TELEFONE":
-        var telefoneRegex = /(?:\(?([1-9][0-9])\)?\s?)?(?:((?:9\d|[2-9])\d{3})\-?(\d{4}))$/;
-        if (telefoneRegex.test(KeyValue)) {
-          this.pixKeys.telefone = KeyValue;
-          return "Chave pix telefone criado com sucesso"
-
-        }
-        else {
-          throw new Error("Erro, telefone inválido");
-        }
-      
-      default:
-        return "Tipo de chave inexistente";
-
-    }
-
-
-  }
-
-  validatePix(pix, type) {
-    if (type === 'CPF') {
-      var regex = /([0-9]{2}[.]?[0-9]{3}[.]?[0-9]{3}[/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[.]?[0-9]{3}[.]?[0-9]{3}[-]?[0-9]{2})/;
+  validatePix(pix, KeyType) {
+    switch(KeyType) {
+    case 'cpf' :
+      let regex = /([0-9]{2}[.]?[0-9]{3}[.]?[0-9]{3}[/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[.]?[0-9]{3}[.]?[0-9]{3}[-]?[0-9]{2})/;
 
       if (regex.test(pix)) {
 
-        return 'Chave pix válida';
+        return true;
       }
       else { return false; }
-    }
-    else if (type === 'EMAIL') {
-      var emailRegex = /^[a-z0-9.]+@[a-z0-9]+.[a-z]+.([a-z]+)?$/i;
+    
+    case 'email' :
+      let emailRegex = /^[a-z0-9.]+@[a-z0-9]+.[a-z]+.([a-z]+)?$/i;
       if (emailRegex.test(pix)) {
-        return 'Chave pix válida';
+        return true;
       }
       else {
         return false;
       }
-    }
-    else if (type === 'TELEFONE') {
-      var telefoneRegex = /(?:\(?([1-9][0-9])\)?\s?)?(?:((?:9\d|[2-9])\d{3})\-?(\d{4}))$/;
+    
+    case 'telefone':
+      let telefoneRegex = /(?:\(?([1-9][0-9])\)?\s?)?(?:((?:9\d|[2-9])\d{3})\-?(\d{4}))$/;
       if (telefoneRegex.test(pix)) {
 
-        return 'Chave pix válida';
+        return true;
       }
       else { return false; }
 
-    }
-    else { return 'Chave pix inválida'; }
+      default:
+        return false;
+ 
 
   }
+}
 
+  createPixKey(KeyValue, KeyType) {
+    
+     if (this.validatePix(KeyValue, KeyType))
+     {
+      switch(KeyType){
+        case 'email' :
+          this.pixKeys.email = KeyValue;
+       return `Chave pix  ${KeyType} criado com sucesso.`;
+        case 'cpf':
+          this.pixKeys.cpf = KeyValue;
+          return `Chave pix  ${KeyType} criado com sucesso.`;
+      case 'telefone':
+        this.pixKeys.telefone = KeyValue;
+        return `Chave pix  ${KeyType} criado com sucesso.`;
+        default:
+          return "Tipo de chave inexistente";
+     
+      }
+    }
+     else
+     { return "Tipo de chave inexistente"; }
+   
+  }
 
-  validatePixKey(pixKeys) {
+  
+  validatePixKeys(pixKeys) {
     if (pixKeys.cpf != undefined) {
-      if (this.validatePix(pixKeys.cpf)) {
+      if (this.validatePix(pixKeys.cpf, 'cpf')) {
           return 'Chave pix válida';
       }
       else { return 'Chave pix inválida'; }
     }
     else if (pixKeys.email != undefined) {
-      
-      if (this.validatePix(pixKeys.email)) {
+      if (this.validatePix(pixKeys.email, 'email')) {
         return 'Chave pix válida';
       }
       else { return 'Chave pix inválida'; }
     }
     else if (pixKeys.telefone != undefined) {
-      if (this.validatePix(pixKeys.telefone)) {
+      if (this.validatePix(pixKeys.telefone , 'telefone')) {
 
         return 'Chave pix válida';
       }
@@ -210,8 +192,9 @@ class Account {
   }
 
   validateAccount(account) {
-    if (!(account.accountNumber.length === 5 && account.agency.length === 4 && account.balance > 0)) {
-      throw new Error("Conta inválida");
+   if (!(account.accountNumber.length === 5 && account.agency.length === 4 && account.balance > 0)) {
+   // if(account instanceof Account){
+    throw new Error("Conta inválida");
 
     }
     else {

@@ -100,62 +100,62 @@ describe("Teste da classe Account", () => {
 
     test("verificar se o atributo chave pix foi preenchido com um CPF", ()=>{
         const account = new Account(1,1,5000);
-        expect(account.createPixKey('50989336093','CPF')).toBe("Chave pix cpf criado com sucesso");
+        expect(account.createPixKey('50989336093','cpf')).toBe("Chave pix  cpf criado com sucesso.");
         expect(account.pixKeys.cpf).toBe('50989336093');
     });
 
     test("verificar se o atributo chave pix foi preenchido com um email", ()=>{
         const account = new Account(1,1,5000);
-        expect(account.createPixKey('annyrural@hotmail.com','EMAIL')).toBe("Chave pix email criado com sucesso");
+        expect(account.createPixKey('annyrural@hotmail.com','email')).toBe("Chave pix  email criado com sucesso.");
         expect(account.pixKeys.email).toBe('annyrural@hotmail.com');
     });
 
     test("verificar se o atributo chave pix foi preenchido com um celular", ()=>{
         const account = new Account(1,1,5000);
-        expect(account.createPixKey('2193456402', 'TELEFONE')).toBe("Chave pix telefone criado com sucesso");
+        expect(account.createPixKey('2193456402', 'telefone')).toBe("Chave pix  telefone criado com sucesso.");
         expect(account.pixKeys.telefone).toBe('2193456402');
     });
 
     test("verificar se o atributo chave pix foi preenchido com um CPF invalido", ()=>{
         const account = new Account(1,1,5000);
-        expect(()=> account.createPixKey('cccccc','CPF')).toThrow("Erro, cpf inválido");
+        expect(account.createPixKey('cccccc','cpf')).toBe("Tipo de chave inexistente");
     });
 
     test("verificar se o atributo chave pix foi preenchido com um email invalido", ()=>{
         const account = new Account(1,1,5000);
-        expect(()=> account.createPixKey('annyruralhotmail.com','EMAIL')).toThrow("Erro, email inválido");
+        expect( account.createPixKey('annyruralhotmail.com','email')).toBe("Tipo de chave inexistente");
     });
 
     test("verificar se o atributo chave pix foi preenchido com um celular invalido", ()=>{
         const account = new Account(1,1,5000);
-        expect( ()=> account.createPixKey('994x056402', 'TELEFONE')).toThrow("Erro, telefone inválido");
+        expect(  account.createPixKey('994x056402', 'telefone')).toBe("Tipo de chave inexistente");
     });
 
-    test("validar chave pix ", ()=>{
+    test("validar chave pix email, com uma chave pix email válida", ()=>{
         const account = new Account("11121","1111",500);
-        account.createPixKey('annyrural23@hotmail.com','EMAIL');
-        expect(account.validatePixKey(account.pixKeys)).toBe("Chave pix válida");
+        expect(account.createPixKey('annyrural23@hotmail.com','email')).toBe("Chave pix  email criado com sucesso.");
+        expect(account.validatePixKeys(account.pixKeys)).toBe("Chave pix válida");
     })
 
     test("validar chave pix , com retorno de chave inválida", ()=>{
         const account = new Account("11121","1111",500);
-        expect(account.validatePixKey(account.pixKeys)).toBe("Chave pix inválida");
+        expect(account.validatePixKeys(account.pixKeys)).toBe("Chave pix inválida");
     })
 
     test("fazer o pix, retorna pix realizado" , () =>{
         const account = new Account("11121","1111",500);
-        expect(account.pixTrasferTo("annyrural123@hotmail.com", "EMAIL", 100)).toBe("Pix feito");
+        expect(account.pixTrasferTo("annyrural123@hotmail.com", "email", 100)).toBe("Pix feito");
         expect(account.getBalance()).toBe(400)
     })
 
     test("fazer o pix, passando chave inválida , pix não realizado" , () =>{
         const account = new Account("11121","1111",500);
-        expect(()=> account.pixTrasferTo("annyrural123hotmail.com","EMAIL", 100)).toThrow("Pix não realizado");
+        expect(()=> account.pixTrasferTo("annyrural123hotmail.com","email", 100)).toThrow("Pix não realizado");
     })
 
     test("fazer o pix com valor acima do saldo, retorna pix não realizado" , () =>{
         const account = new Account("11121","1111",500);
-        expect(()=> account.pixTrasferTo("annyrural123@hotmail.com", "EMAIL", 600)).toThrow("Pix não realizado, saldo insuficiente");
+        expect(()=> account.pixTrasferTo("annyrural123@hotmail.com", "email", 600)).toThrow("Pix não realizado, saldo insuficiente");
     })
 
     test("transferência entre contas" , () =>{
