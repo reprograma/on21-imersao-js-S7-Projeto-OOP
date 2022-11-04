@@ -1,3 +1,4 @@
+import { Client } from '../Client/Client.js'
 import { Account } from './Account.js'
 
 describe('Account', () => {
@@ -22,32 +23,37 @@ describe('Account', () => {
   })
 
   test("Deposit of $100.", () => {
-    const account = new Account('Mari', '355689785-22', 1, 1, 1000)
+    const client = new Client('Mari', '355689785-22', new Account(), 48000)
+    const account = new Account(client, '1234', '001', 1000)
     account.deposit(100)
     expect(account.getBalance()).toBe(1100)
   })
 
   test("Deposit of -$100.", () => {
-    const account = new Account('Mari', '355689785-22', 1, 1, 1000)
+    const client = new Client('Mari', '355689785-22', new Account(), 48000)
+    const account = new Account(client, '1234', '001', 1000)
     expect(() => account.deposit(-100)).toThrow("It is not possible to deposit negative values.")
     expect(account.getBalance()).toBe(1000)
   })
 
   test("Deposit with non-numeric value.", () => {
-    const account = new Account('Mari', '355689785-22', 1, 1, 500)
+    const client = new Client('Mari', '355689785-22', new Account(), 48000)
+    const account = new Account(client, '1234', '001', 500)
     expect(() => account.deposit(true)).toThrow("Non-numeric values ​​not allowed for deposit.")
     expect(account.getBalance()).toBe(500)
   })
 
   test("Withdrawal of $100.", () => {
-    const account = new Account('Mari', '355689785-22', 1, 1, 1000)
+    const client = new Client('Mari', '355689785-22', new Account(), 48000)
+    const account = new Account(client, '1234', '001', 500)
     account.withdrawal(100)
-    expect(account.getBalance()).toBe(900)
+    expect(account.getBalance()).toBe(400)
   })
 
   test("Withdrawal over limit.", () => {
     try {
-      const account = new Account('Mari', '355689785-22', 1, 1, 1000)
+      const client = new Client('Mari', '355689785-22', new Account(), 48000)
+      const account = new Account(client, '1234', '001', 500)
       account.withdrawal(1100)
     } catch (error) {
       expect(error.message).toEqual('Insufficient balance to perform transaction.')
@@ -88,12 +94,22 @@ describe('Account', () => {
   });
 
   test("Should transfer $120.", () => {
-    const account = new Account('Mari', '355689785-22', 1, 1, 1000)
-    const account2 = new Account('Mariana', '856482178-44', 2, 2, 2000)
-    account.transferTo(account2, '856482178-44', 120)
-    expect(account.getBalance()).toBe(880)
-    expect(account2.getBalance()).toBe(2120)
+    const account1 = new Account(new Client('Mariana', '37761514046', 456, 7000), '12345', '1313', 700)
+    const account2 = new Account(new Client('Mari', '48929529599', 7898, 5000), '55555', '8989', 500)
+    account1.transferTo(account2, '48929529599', 120)
+    expect(account1.getBalance()).toBe(580)
+    expect(account2.getBalance()).toBe(620)
   })
+
+  test("Should transfer $120 by pix.", () => {
+    const account1 = new Account(new Client('Mariana', '37761514046', 456, 7000), '12345', '1313', 700)
+    const account2 = new Account(new Client('Mari', '48929529599', 7898, 5000), '55555', '8989', 500)
+    account2.createPixKey('48929529599', 'cpf')
+    account1.transferByPixTo(account2, '48929529599', 120)
+    expect(account1.getBalance()).toBe(580)
+    expect(account2.getBalance()).toBe(620)
+  })
+
 
   test("Should not transfer $120 due to insufficient balance.", () => {
     const account = new Account('Mari', '355689785-22', 1, 1, 100)
@@ -102,9 +118,9 @@ describe('Account', () => {
   })
 
   test("Should not transfer when non-numeric value is provided.", () => {
-    const account = new Account('Mari', '355689785-22', 1, 1, 500)
-    const account2 = new Account('Mariana', '856482178-44', 2, 2, 2000)
-    expect(() => account.transferTo(account2, '856482178-44', '120')).toThrow("Non-numeric values ​​not allowed for transfer.");
+    const account1 = new Account(new Client('Mariana', '37761514046', 456, 7000), '12345', '1313', 700)
+    const account2 = new Account(new Client('Mari', '48929529599', 7898, 5000), '55555', '8989', 500)
+    expect(() => account1.transferTo(account2, '856482178-44', '120')).toThrow("Non-numeric values ​​not allowed for transfer.");
   })
 
   test("Should not transfer when negative value is provided.", () => {
@@ -114,9 +130,9 @@ describe('Account', () => {
   })
 
   test("Should not transfer when invalid cpf is provided.", () => {
-    const account = new Account('Mari', '355689785-22', 1, 1, 500)
-    const account2 = new Account('Mariana', '856482178-44', 2, 2, 2000)
-    expect(() => account.transferTo(account2, '856482178', 120)).toThrow("Invalid cpf provided. Please check and try again!");
+    const account1 = new Account(new Client('Mariana', '37761514046', 456, 7000), '12345', '1313', 700)
+    const account2 = new Account(new Client('Mari', '48929529599', 7898, 5000), '55555', '8989', 500)
+    expect(() => account1.transferTo(account2, '856482178', 120)).toThrow("Invalid cpf provided. Please check and try again!");
   })
 
   test("Should not transfer by pix due to insufficient balance.", () => {
@@ -132,10 +148,10 @@ describe('Account', () => {
     expect(() => account.transferByPixTo(account2, '37761514046', -200)).toThrow('Pix Error!!! It is not possible to transfer negative values.');
   })
   test("Should not transfer by pix when non-numeric value is provided.", () => {
-    const account = new Account('Mariana', '37761514444', '12345', '1313', 7000)
-    const account2 = new Account('Mari', '37761514046', '12345', '1313', 5000)
+    const account1 = new Account(new Client('Mariana', '37761514046', 456, 7000), '12345', '1313', 700)
+    const account2 = new Account(new Client('Mari', '48929529599', 7898, 5000), '55555', '8989', 500)
     account2.createPixKey('any_email@email.com', 'email')
-    expect(() => account.transferByPixTo(account2, 'any_email@email.com', '200')).toThrow('Non-numeric values ​​not allowed for transfer.');
+    expect(() => account1.transferByPixTo(account2, 'any_email@email.com', '200')).toThrow('Non-numeric values ​​not allowed for transfer.');
   })
   test("Should not transfer by pix when an invalid key is provided.", () => {
     const account = new Account('Mariana', '37761514444', '12345', '1313', 7000)
