@@ -142,6 +142,22 @@ describe("Teste da classe Account", () => {
         expect(account.validatePixKey(account.pixKeys)).toBe("Chave pix inválida");
     })
 
+    test("fazer o pix, retorna pix realizado" , () =>{
+        const account = new Account("11121","1111",500);
+        expect(account.pixTrasferTo("annyrural123@hotmail.com", "EMAIL", 100)).toBe("Pix feito");
+        expect(account.getBalance()).toBe(400)
+    })
+
+    test("fazer o pix, passando chave inválida , pix não realizado" , () =>{
+        const account = new Account("11121","1111",500);
+        expect(()=> account.pixTrasferTo("annyrural123hotmail.com","EMAIL", 100)).toThrow("Pix não realizado");
+    })
+
+    test("fazer o pix com valor acima do saldo, retorna pix não realizado" , () =>{
+        const account = new Account("11121","1111",500);
+        expect(()=> account.pixTrasferTo("annyrural123@hotmail.com", "EMAIL", 600)).toThrow("Pix não realizado, saldo insuficiente");
+    })
+
     test("transferência entre contas" , () =>{
         const account = new Account("11121","1111",500);
         const account1 = new Account("22221","1222",100);

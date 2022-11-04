@@ -67,19 +67,76 @@ class Account {
 
 
   }
-  validatePixKey(pixKeys) {
-    if (pixKeys.cpf != undefined) {
-      console.log('entrei aqui')
-      return 'Chave pix válida';
+
+  validatePix(pix, type) {
+    if (type === 'CPF') {
+      var regex = /([0-9]{2}[.]?[0-9]{3}[.]?[0-9]{3}[/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[.]?[0-9]{3}[.]?[0-9]{3}[-]?[0-9]{2})/;
+
+      if (regex.test(pix)) {
+
+        return 'Chave pix válida';
+      }
+      else { return false; }
     }
-    else if (pixKeys.email != undefined) {
-      return 'Chave pix válida';
+    else if (type === 'EMAIL') {
+      var emailRegex = /^[a-z0-9.]+@[a-z0-9]+.[a-z]+.([a-z]+)?$/i;
+      if (emailRegex.test(pix)) {
+        return 'Chave pix válida';
+      }
+      else {
+        return false;
+      }
     }
-    else if (pixKeys.email != undefined) {
-      return 'Chave pix válida';
+    else if (type === 'TELEFONE') {
+      var telefoneRegex = /(?:\(?([1-9][0-9])\)?\s?)?(?:((?:9\d|[2-9])\d{3})\-?(\d{4}))$/;
+      if (telefoneRegex.test(pix)) {
+
+        return 'Chave pix válida';
+      }
+      else { return false; }
+
     }
     else { return 'Chave pix inválida'; }
 
+  }
+
+
+  validatePixKey(pixKeys) {
+    if (pixKeys.cpf != undefined) {
+      if (this.validatePix(pixKeys.cpf)) {
+          return 'Chave pix válida';
+      }
+      else { return 'Chave pix inválida'; }
+    }
+    else if (pixKeys.email != undefined) {
+      
+      if (this.validatePix(pixKeys.email)) {
+        return 'Chave pix válida';
+      }
+      else { return 'Chave pix inválida'; }
+    }
+    else if (pixKeys.telefone != undefined) {
+      if (this.validatePix(pixKeys.telefone)) {
+
+        return 'Chave pix válida';
+      }
+      else { return 'Chave pix inválida'; }
+
+    }
+    else { return 'Chave pix inválida'; }
+
+  }
+  
+  pixTrasferTo(pix, type, value) {
+    if (this.validatePix(pix, type)) {
+       if(value <= this.#balance) 
+       {
+        this.#balance -= value;
+        return 'Pix feito'
+       }
+       else { throw new Error("Pix não realizado, saldo insuficiente");}
+    }
+    else { throw new Error("Pix não realizado"); }
   }
 
   getBalance() {
@@ -172,7 +229,7 @@ class Account {
     }
   }
 
-  validateTransaction(transaction, value, income ,accountAnother) {
+  validateTransaction(transaction, value, income, accountAnother) {
     if (value <= income) {
       switch (transaction) {
         case "withdraw":
@@ -182,11 +239,11 @@ class Account {
         case "deposit":
           this.deposit(value);
           return "Operação dentro do limite diário";
-        
+
         case "transferTo":
-          this.transferTo(accountAnother , value);
+          this.transferTo(accountAnother, value);
           return "Operação dentro do limite diário";
-      
+
         default:
           throw new Error(`Operação inválida`);
 
