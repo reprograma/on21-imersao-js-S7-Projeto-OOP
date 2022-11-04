@@ -151,7 +151,4 @@ export class Account extends Client {
   }
 }
  
-  const account1 = new Account('Renata', '123456789', '12345', '1234', 1000)
-  const account2 = new Account('Re', '00011122233', '00100', '0001', 500)
-
 
