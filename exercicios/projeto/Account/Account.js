@@ -42,9 +42,9 @@ class Account {
           this.pixKeys.cpf = KeyValue;
           return "Chave pix cpf criado com sucesso"
         }
-      // else {
-      //   throw new Error("Erro, cpf inválido");
-      // }
+       else {
+         throw new Error("Erro, cpf inválido");
+       }
       case "EMAIL":
         var emailRegex = /^[a-z0-9.]+@[a-z0-9]+.[a-z]+.([a-z]+)?$/i;
 
@@ -52,7 +52,10 @@ class Account {
           this.pixKeys.email = KeyValue;
           return "Chave pix email criado com sucesso"
         }
-
+        else {
+          throw new Error("Erro, email inválido");
+        }
+      
       case "TELEFONE":
         var telefoneRegex = /(?:\(?([1-9][0-9])\)?\s?)?(?:((?:9\d|[2-9])\d{3})\-?(\d{4}))$/;
         if (telefoneRegex.test(KeyValue)) {
@@ -60,6 +63,10 @@ class Account {
           return "Chave pix telefone criado com sucesso"
 
         }
+        else {
+          throw new Error("Erro, telefone inválido");
+        }
+      
       default:
         return "Tipo de chave inexistente";
 

@@ -20,14 +20,14 @@ describe("Teste da classe Account", () => {
     });
 
     // negativo -> deposito com valor não numérico
-    test("deposito com valor não númérico", () => {
+    test("deposito com valor não numérico", () => {
         const account = new Account(1, 1, 500);
         expect(() => account.deposit("")).toThrow("Não é possível depositar valores não numéricos");
         expect(account.getBalance()).toBe(500);
     });
 
 
-    test("saque com valor não númérico", () => {
+    test("saque com valor não numérico", () => {
         const account = new Account(1, 1, 500);
         expect(() => account.withdraw("")).toThrow("Não é possível sacar valores não numéricos");
         expect(account.getBalance()).toBe(500);
@@ -118,17 +118,17 @@ describe("Teste da classe Account", () => {
 
     test("verificar se o atributo chave pix foi preenchido com um CPF invalido", ()=>{
         const account = new Account(1,1,5000);
-        expect( account.createPixKey('cccccc','CPF')).toBe("Tipo de chave inexistente");
+        expect(()=> account.createPixKey('cccccc','CPF')).toThrow("Erro, cpf inválido");
     });
 
     test("verificar se o atributo chave pix foi preenchido com um email invalido", ()=>{
         const account = new Account(1,1,5000);
-        expect( account.createPixKey('annyruralhotmail.com','EMAIL')).toBe("Tipo de chave inexistente");
+        expect(()=> account.createPixKey('annyruralhotmail.com','EMAIL')).toThrow("Erro, email inválido");
     });
 
     test("verificar se o atributo chave pix foi preenchido com um celular invalido", ()=>{
         const account = new Account(1,1,5000);
-        expect( account.createPixKey('994x056402', 'TELEFONE')).toBe("Tipo de chave inexistente");
+        expect( ()=> account.createPixKey('994x056402', 'TELEFONE')).toThrow("Erro, telefone inválido");
     });
 
     test("validar chave pix ", ()=>{

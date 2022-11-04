@@ -5,7 +5,6 @@ const client = new Client();
 const account = new Account();
 account.createAccount('12334','1234',5000)
 
-//const CLient = require("./Client")
 describe("Teste da classe Client", ()=>{
     test("verificar se instancia do Client é feita corretamente", ()=>{
         expect(client instanceof Client).toBe(true);
@@ -65,9 +64,14 @@ describe("Teste da classe Client", ()=>{
         expect( ()=> account.validateTransaction('withdraw',6000,client.income, 0)).toThrow("Limite diário excedido") ;
     })
 
-    test("validar transações para cliente Standard - R$1.000 diários , retirando acima do permitido",()=>{
-        client.registerClient("Anna Rodrigues", "12345678902", account, 4999.99);
-        expect( ()=> account.validateTransaction('withdraw1',2000,client.income, 0)).toThrow("Operação inválida") ;
+    test("validar transações para cliente Gold - R$5.000 diários , retirando acima do permitido",()=>{
+        client.registerClient("Anna Rodrigues", "12345678902", account, 8000.00);
+        expect( ()=> account.validateTransaction('withdraw1',6000,client.income, 0)).toThrow("Operação inválida") ;
+    })
+
+    test("validar transações para cliente Premium` sem limite",()=>{
+        client.registerClient("Anna Rodrigues", "12345678902", account, 18000.00);
+        expect( ()=> account.validateTransaction('withdraw1',20000,client.income, 0)).toThrow("Limite diário excedido") ;
     })
 
 });
