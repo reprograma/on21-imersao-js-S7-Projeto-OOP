@@ -31,7 +31,6 @@ export class CategoryAccount extends Account {
     return this.#transactionLimit = newTransactionLimit
   }
 
-
   withdrawal(amount) {
     if (typeof amount !== 'number') {
       throw new Error('Non-numeric values ​​not allowed for withdrawal.')
