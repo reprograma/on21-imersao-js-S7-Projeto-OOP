@@ -1,13 +1,15 @@
 import { Client } from '../Client/Client.js'
 
-export class Account extends Client {
+export class Account {
     #accountNumber
     #agency
     #balance
     pixKeys = []
   
-    constructor(name, cpf, accountNumber, agency, balance) {
-      super(name, cpf)
+    constructor(client, accountNumber, agency, balance) {
+      if (client instanceof Client) {
+        this.client = client
+      }
       this.#accountNumber = accountNumber
       this.#agency = agency
       this.#balance = balance
@@ -73,14 +75,12 @@ export class Account extends Client {
         return  'Account created successfully'
       } else {
         throw new Error('Invalid data for registration')
-      }
-       
+     } 
     }
   
     createPixKey(pixType, generatePixKey) {
       const arrPixType = ['cpf', 'tel', 'email']
       let filteredPixType = arrPixType.filter(namePixType => namePixType === pixType)
-      // console.log('FILTERED PIX TYPE', filteredPixType)
       if(filteredPixType) {
         if(pixType === filteredPixType[0]) {
           let regex
@@ -100,7 +100,6 @@ export class Account extends Client {
               return 'Invalid pix type'
              }
           this.validate(generatePixKey, regex, pixType)
-  
         } 
         else {
           throw new Error('Invalid pix type')
@@ -109,33 +108,25 @@ export class Account extends Client {
   }
 
   transferTo(anotherAccount, cpf, amount) {
-    if (anotherAccount instanceof Client) {
       if (this.balance < amount) {
         throw new Error('Insuficcient funds to transfer')
-      } else if (anotherAccount.cpf === cpf) {
+      } else if (anotherAccount.client.cpf === cpf) {
         this.withdrawal(amount)
         anotherAccount.deposit(amount)
         console.log(`Sent $${amount} to account with CPF ${cpf} / Current balance: $${this.balance}`)
-
       } else {
-        console.log('Invalid cpf provided. Please check and try again!')
+        throw new Error ('Invalid cpf provided. Please check and try again!')
       }
-    }
   }
 
   pixTo(anotherAccount, pixkey, amount) {
-    if (anotherAccount instanceof Account) {
       if (this.balance < amount) {
         throw new Error('Insuficcient funds to transfer')
       } else if(anotherAccount.pixKeys.filter(pix => pix === pixkey))
       this.withdrawal(amount)
       anotherAccount.deposit(amount)
       console.log(`Sent $${amount} to PIX:${pixkey} / Current balance: $${this.balance}`)
-      
-
-      }
     }
-
 
   validate(generatePixKey, regex, pixType) {
     if(generatePixKey.match(regex)) {
