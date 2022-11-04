@@ -155,38 +155,3 @@ export class Account extends Client {
   const account2 = new Account('Re', '00011122233', '00100', '0001', 500)
 
 
-
-  //  account2.createPixKey('email', 'renata@gmail.com')
-  // account1.createPixKey('tel', '21987654321')
-
-//  account1.transferTo(account2, '00011122233', 200)
-
-
-  // console.log(account1.balance);
-  // console.log(account2.balance);
-
-  
-  // account1.createPixKey('cpf', '11111111145')
-  // console.log(account1.balance);
-  // console.log(account2.balance);
-  account1.pixTo(account2, 'renata@gmail.com', 200)
-
-
-  // console.log(account1.accountNumber);
-  // console.log('ACCOUNT 2', account2);
-  
-
-// // account1.createPixKey('email', 'renata@gmail.com')
-// account1.createPixKey('tel', '21987654321')
-// account1.createPixKey('casa', '44987654321')
-//  account1.createPixKey('tel', '21999998844')
-
- 
-
-
-
-// console.log(account1.pixKeys);
-
-
-
-// constructor(name, cpf, accountNumber, agency, balance) {
