@@ -4,20 +4,19 @@ Account
   - agency -> privado
   - balance  -> privado
   - pixKey 
-- metodos
-  - depositar OK
-  - sacar ENTREGAR NA QUINTA
-  - tranferir ENTREGAR NA QUINTA
-  - pix ENTREGAR NA QUINTA
-  - criar conta OK
-  - verificar saldo OK
-  - verificar chave pix (se possivel ENTREGAR NA QUINTA)
-  - atualizar saldo (se possivel ENTREGAR NA QUINTA)
-  - criar chave pix OK
-
-  pix
+- métodos
+  - depositar ENTREGAR NA QUINTA OK
+  - sacar ENTREGAR NA QUINTA OK
+  - transferir ENTREGAR NA QUINTA OK
+  - fazer pix ENTREGAR NA QUINTA
+  - criar conta ENTREGAR NA QUINTA OK
+  - verificar saldo ENTREGAR NA QUINTA OK
+  - verificar chave pix (se possível ENTREGAR NA QUINTA) OK
+  - atualizar saldo (se possível ENTREGAR NA QUINTA) OK
+  - criar chave pix (se possível ENTREGAR NA QUINTA) OK
+  - pix OK
   - createPix
-    - todas chaves são de texto
-    - chave ser email
-    - chave ser um telefone
-    - chave ser cpf
+    - todas chaves são de texto ok
+    - chave ser email ok
+    - chave ser um telefone ok
+    - chave ser cpf ok
