@@ -77,20 +77,19 @@ createPixKey(keyValue, keyType){
   }
 }
 
-// corrigir antes de subir:
-// transferTo(cpf, othercount, valor) {
-//   if (this.cpf === cpf) {
-//       this.verificarValor(valor);
-//       if (this.#balance >= valor) {
-//           this.#balance -= valor;
-//           othercount.deposito(valor);
-//           return "Transferência realizada com sucesso!"
-//       } else {
-//           throw new Error("Saldo insuficiente!");
-//       }
-//   } else {
-//       throw Error('Cpf inválido!')
-//   }
-// }
+transferTo(cpf, othercount, valor) {
+  if (this.cpf === cpf) {
+      this.verificarValor(valor);
+      if (this.#balance >= valor) {
+          this.#balance -= valor;
+          othercount.deposito(valor);
+          return "Transferência realizada com sucesso!"
+      } else {
+          throw new Error("Saldo insuficiente!");
+      }
+  } else {
+      throw Error('Cpf inválido!')
+  }
+}
 
 export default Account;
