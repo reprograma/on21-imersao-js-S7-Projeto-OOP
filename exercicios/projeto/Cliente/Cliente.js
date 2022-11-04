@@ -6,7 +6,7 @@ export default class Cliente {
     #conta
     #renda
     tipoConta
-    #limiteTransacao = 0
+    #limiteTransacao
 
     cadastrarCliente(nome, cpf, conta, renda) {
         if (nome === undefined || cpf === undefined || conta === undefined || renda === undefined) {
@@ -21,11 +21,9 @@ export default class Cliente {
                 this.tipoConta = "STANDARD"
                 this.#limiteTransacao = 1000
             } else if (this.#renda > 5000 && this.#renda <= 17999.99) {
-
                 this.tipoConta = "GOLD"
                 this.#limiteTransacao = 5000
             } else if (this.#renda >= 18000) {
-
                 this.tipoConta = "PREMIUM"
                 this.#limiteTransacao = 999999999.99
             }
@@ -37,19 +35,6 @@ export default class Cliente {
 
     }
 
-    get tipoConta() {
-        return this.tipoConta
-    }
+   
 
 }
-const conta1 = new Conta('666', '035-5', 300)
-const conta2 = new Conta('555', '035-5', 100)
-
-const cliente1 = new Cliente()
-const cliente2 = new Cliente()
-
-cliente2.cadastrarCliente('Maria', '12545453', conta2, 1000000)
-
-cliente1.cadastrarCliente('Mylena', '123456789', conta1, 3000)
-console.log(cliente1.tipoConta)
-console.log(cliente2.tipoConta)
