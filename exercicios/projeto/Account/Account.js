@@ -1,14 +1,16 @@
 import { Client } from '../Client/Client.js'
 
-export class Account extends Client {
+export class Account {
 
   #accountNumber
   #agency
   #balance
   pixKeys
 
-  constructor(name, cpf, accountNumber, agency, balance) {
-    super(name, cpf)
+  constructor(client, accountNumber, agency, balance) {
+    if (client instanceof Client) {
+      this.client = client
+    }
     this.#accountNumber = accountNumber
     this.#agency = agency
     this.#balance = balance
@@ -68,7 +70,7 @@ export class Account extends Client {
     }
     if (amount > 0) {
       this.balance += amount
-      console.log(`New Balance after deposit: ${this.getBalance()}`)
+      return `New Balance after deposit: ${this.getBalance()}`
     } else {
       throw new Error("It is not possible to deposit negative values.")
     }
@@ -124,6 +126,7 @@ export class Account extends Client {
 
 
   transferTo(anotherAccount, cpf, amount) {
+    console.log('another account', anotherAccount);
     if (this.balance < amount) {
       throw new Error('Error!!! Insufficient balance to perform transfer transaction.')
     }
@@ -133,7 +136,7 @@ export class Account extends Client {
     if (typeof amount !== 'number') {
       throw new Error('Non-numeric values ​​not allowed for transfer.')
     }
-    if (anotherAccount.cpf === cpf) {
+    if (anotherAccount.client.cpf === cpf) {
       this.withdrawal(amount)
       console.log(`Origin account balance: $ ${this.balance}`)
       anotherAccount.deposit(amount)
