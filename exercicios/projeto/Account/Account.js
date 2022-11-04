@@ -126,7 +126,6 @@ export class Account {
 
 
   transferTo(anotherAccount, cpf, amount) {
-    console.log('another account', anotherAccount);
     if (this.balance < amount) {
       throw new Error('Error!!! Insufficient balance to perform transfer transaction.')
     }
