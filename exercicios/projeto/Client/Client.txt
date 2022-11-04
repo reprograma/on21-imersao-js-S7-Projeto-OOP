@@ -1,0 +1,29 @@
+instalar npm 
+npm install
+
+rodar o test:
+npm test
+
+o getMetodo tem um retorno que acessa uma propriedade privadas
+pode usar o getter ou setter
+
+/* Client
+atributos:
+- nome;
+-cpf 
+- conta - privado;
+- renda - privado métodos
+- registrar um cliente;
+
+classes:
+- atributos (propridades)
+- métodos (funções)
+- métodos - funções
+*/
+
+test
+especificar exatamte 
+
+this seta os valores das propriedades
+
+ regex email /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/

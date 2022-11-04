@@ -1,0 +1,36 @@
+Account
+- atributos
+    - accountNumber -> privado
+    - agency -> privado
+    - balance -> privado
+    - pixKey
+-métodos
+    - criar conta
+    - depositar
+    - sacar
+    - transferir
+    - pix
+    - verificar saldo
+    - verificar chave pix
+    - atualizar saldo
+    - criar chave pix// 
+    
+    exemplo Cintia
+
+    // test("Verificar se a conta foi criada", () => {
+    //     const account = new Account('4467987', 003, 20000);
+    //     expect(() => account(accountNumber).toBe('4467987'));
+    //     expect(() => account(agency).toBe('4467987'));
+    //     expect(() => account(balance).toBe(20000));
+    // })
+
+    // test("verificar se o método withdraw tem um Trhow", () => {
+    //     const account = new Account(1,1,500);
+    //     expect(account.withDraw()).toThrow();
+    // })
+    // verificar se a funcao tem o metodo throw. usa antes do teste da função
+
+    // exemplo prof
+
+
+
