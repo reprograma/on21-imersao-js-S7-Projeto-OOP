@@ -36,6 +36,14 @@ class Account {
     return this.#balance;
   }
 
+  getAgency() {
+    return this.#agency;
+  }
+
+  getAccountNumber() {
+    return this.#accountNumber;
+  }
+
   deposit(value) {
     if (typeof value === 'string' || typeof value === 'boolean') {
       throw new Error("Não é possível depositar valores não numéricos");
