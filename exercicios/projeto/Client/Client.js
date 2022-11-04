@@ -5,6 +5,7 @@ class Client {
   #cpf;
   #account;
   #income;
+
   
   // constructor(name, cpf, account, income) {
   //   this.name = name;
@@ -25,9 +26,25 @@ class Client {
       throw new Error("Erro no cadastro, dados inválidos");
     }
   }
+
+  clientCategory() {
+    if(typeof this.#income === 'string' || typeof this.#income === 'boolean'){
+      throw new Error('Não é possível renda com valores que não são números')
+
+  } else if (this.#income <= 4999.99){
+      return "Cliente Standard"
+  }
+    else if(this.#income >= 4999.99 && this.#income <=17999.99){
+      return "Cliente Gold"
+  } 
+    else {
+      return "Cliente Premium"
+  }
+  }
 }
 
-// export default Client;
+export default Client;
+
 // // o dado privado faz parte do  encapsulamento
 // //this é uma forma de referenciar oa propria instancia criada  e nao a classe em si 
 
