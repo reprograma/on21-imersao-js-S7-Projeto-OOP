@@ -51,6 +51,22 @@ class Account {
         }
     }
 
+    withdraw(value){
+        if(typeof value === 'string' || typeof value === 'boolean'){
+            throw new Error("Não é possível depositar valores não numéricos");
+        }
+        if(value > 0){
+            if(value <= this.#balance){
+                this.#balance -= value;
+                return `Saque de ${value} reais  realizado com sucesso`;
+            } else {
+                throw new Error("Saldo insuficiente")
+            }
+        } else { 
+            throw new Error("Não é possível sacar valores negativos")
+        }
+    }
+
     createPixKey(keyValue, keyType){
         switch(keyType){
             case "CPF":
@@ -62,9 +78,23 @@ class Account {
                     throw new Error("Erro CPF inválido");
                 }
             case "EMAIL":
+                this.pixKeys.email = keyValue;
+                return "Chave pix email criada com sucesso";
             case "TELEFONE":
+                this.pixKeys.telefone = keyValue;
+                return "Chave pix telefone criada com sucesso";
             default:
                 return "Tipo de chave inexistente"
+        }
+    }
+
+    transferTo(anotherAccount, value){
+        if(this.#balance >= value){
+            this.#balance -= value;
+            anotherAccount.deposit(value);
+            return "Transferencia feita com sucesso";
+        } else {
+            throw new Error("saldo insuficiente");
         }
     }
 }

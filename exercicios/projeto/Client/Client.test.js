@@ -11,12 +11,12 @@ describe("teste da classe Client", () => {
     test("cadastrar cliente com dados válidos", () => {
         const client = new Client();
         const account = new Account();
-        expect(client.registerClient("Fulana", "123456789", account, 5000)).toBe("Cliente cadastrado.")
+        expect(client.registerClient("Fulana", "123456789", account, 5000)).toBe("Cliente cadastrado")
     });
     
     test("cadastrar cliente com dados inválidos", () => {
         const client = new Client();
-        expect(() => client.registreClient("Fulana", "123456789", "não conta", 5000)).toThrow("Erro no cadastro, dados inválidos");
+        expect(() => client.registerClient("Fulana", "123456789", "não conta", 5000)).toThrow("Erro no cadastro, dados inválidos");
     
     });
 
