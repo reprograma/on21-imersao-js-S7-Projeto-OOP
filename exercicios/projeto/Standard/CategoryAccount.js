@@ -9,12 +9,10 @@ export class CategoryAccount extends Account {
     super(client, accountNumber, agency, balance)
     if (client instanceof Client) {
       if (client.income < 5000) {
-        console.log('vc é standard');
         this.category = 'standard'
         this.transactionLimit = 1000
       } else if (client.income > 5000 && client.income < 18000) {
         this.category = 'gold'
-        console.log('vc é gold');
         this.transactionLimit = 5000
       } else if (client.income > 18000) {
         this.category = 'premium'
