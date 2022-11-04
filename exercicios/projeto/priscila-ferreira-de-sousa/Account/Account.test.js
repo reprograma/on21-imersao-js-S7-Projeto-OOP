@@ -95,13 +95,14 @@ describe("Teste da classe Account", () => {
 
     test("saque com valor válido, menor que o saldo atual", () => {
         const account = new Account(2, 2345, 1000);
-        account.withdraw(300);
+        expect(account.withdraw(300)).toBe(`Saque de R$300 realizado com sucesso. Saldo atual:${account.getBalance()}`);
         expect(account.getBalance()).toBe(700);
     })
 
     //testes de transferência
     test("transferência para conta que não seja instância de Account", () => {
         const account = new Account(3, 2345, 50000);
+
         expect(() => account.transferTo("anotherCount", 300)).toThrow("Não é possível realizar a transferência, a conta selecionada para o recebimento é inválida.");
         expect(account.getBalance()).toBe(50000);
     })
@@ -109,6 +110,7 @@ describe("Teste da classe Account", () => {
     test("tranferência de valor maior do que o saldo atual da conta de origem", () => {
         const account = new Account(4, 6985, 600);
         const anotherAccount = new Account(5, 8741, 200);
+
         expect(() => account.transferTo(anotherAccount, 1200)).toThrow(`Não é possível transferir valor maior que o saldo. Saldo atual: R$${600}`);
         expect(account.getBalance()).toBe(600);
         expect(anotherAccount.getBalance()).toBe(200);
@@ -117,6 +119,7 @@ describe("Teste da classe Account", () => {
     test("tranferência de valor negativo", () => {
         const account = new Account(4, 6985, 800);
         const anotherAccount = new Account(5, 8741, 400);
+
         expect(() => account.transferTo(anotherAccount, -30)).toThrow(`Não é possível transferir valores negativos/zero.`);
         expect(account.getBalance()).toBe(800);
         expect(anotherAccount.getBalance()).toBe(400);
@@ -125,15 +128,46 @@ describe("Teste da classe Account", () => {
     test("tranferência com sucesso de 150 reais", () => {
         const account = new Account(4, 6985, 800);
         const anotherAccount = new Account(5, 8741, 400);
-        account.transferTo(anotherAccount, 150);
+        expect(account.transferTo(anotherAccount, 150)).toBe(`Transferência de R$150 realizada com sucesso. Saldo atual:${account.getBalance()}`);
+
         expect(account.getBalance()).toBe(650);
         expect(anotherAccount.getBalance()).toBe(550);
     })
 
+    // *** Testes de pix
     test("pix de chave de conta inexistente ", () => {
         const account = new Account("11", "2456", 1800);
-        account.makePix("11987451124", 300);
-
+        expect(() => account.makePix("11987451124", 300)).toThrow(`Não é possível realizar o pix. Chave inexistente.`);
+        expect(account.getBalance()).toBe(1800);
     })
 
-});
+    test("pix de valor maior que o saldo atual", () => {
+        const account = new Account("47", "7845", 1800);
+        const anotherAccount = new Account("33", "3333", 200);
+        anotherAccount.createPix("reprograma@teste.com.br", "EMAIL");
+
+        expect(() => account.makePix("reprograma@teste.com.br", 2000)).toThrow(`Não é possível realizar pix de valor maior que o saldo. Saldo atual: ${account.getBalance()}`);
+        expect(account.getBalance()).toBe(1800);
+        expect(anotherAccount.getBalance()).toBe(200);
+    })
+})
+
+test("pix de valor negativo", () => {
+    const account = new Account("47", "7845", 1800);
+    const anotherAccount = new Account("33", "3333", 200);
+    anotherAccount.createPix("11958742214", "TELEFONE");
+
+    expect(() => account.makePix("11958742214", -20)).toThrow(`Não é possível realizar pix de valores negativos/zero.`);
+    expect(account.getBalance()).toBe(1800);
+    expect(anotherAccount.getBalance()).toBe(200);
+})
+
+test("pix com sucesso de 90 reais", () => {
+    const account = new Account("47", "7845", 1800);
+    const anotherAccount = new Account("33", "3333", 200);
+    anotherAccount.createPix("11958742214", "TELEFONE");
+    expect(account.makePix("11958742214", 90)).toBe(`Pix de R$90 enviado para a conta: ${anotherAccount.getAccountNumber()}-${anotherAccount.getAgency()} com sucesso!`);
+
+    expect(account.getBalance()).toBe(1710);
+    expect(anotherAccount.getBalance()).toBe(290);
+})

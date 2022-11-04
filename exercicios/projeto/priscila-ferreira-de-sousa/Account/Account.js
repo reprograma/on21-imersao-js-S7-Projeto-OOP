@@ -125,7 +125,7 @@ class Account {
 
         }
         this.#balance -= value;
-        console.log(`Saque de RS${value} realizado com sucesso! Saldo atual ${this.#balance}`);
+        return `Saque de R$${value} realizado com sucesso. Saldo atual:${this.#balance}`;
     }
 
     transferTo(anotherAccount, value) {
@@ -140,12 +140,27 @@ class Account {
         }
         anotherAccount.deposit(value);
         this.withdraw(value);
+        return `Transferência de R$${value} realizada com sucesso. Saldo atual:${this.#balance}`;
 
+    }
+
+    makePix(pixKey, value) {
+        let accountIndex = Account.getAccountIndexByPixKey(pixKey);
+        if (accountIndex < 0) {
+            throw new Error(`Não é possível realizar o pix. Chave inexistente.`);
+        }
+        if (value <= 0) {
+            throw new Error(`Não é possível realizar pix de valores negativos/zero.`);
+        }
+        if (value > this.#balance) {
+            throw new Error(`Não é possível realizar pix de valor maior que o saldo. Saldo atual: ${this.#balance}`);
+        }
+        Account.createdAccounts[accountIndex].deposit(value);
+        let account = Account.createdAccounts[accountIndex];
+        this.withdraw(value);
+
+        return `Pix de R$${value} enviado para a conta: ${account.getAccountNumber()}-${account.getAgency()} com sucesso!`;
     }
 }
 
 export default Account;
-
-//entregar o método sacar
-// entregar o método fazer pix
-//entregart o método transferir 
