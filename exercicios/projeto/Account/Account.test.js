@@ -1,4 +1,5 @@
 import Account from "./Account.js";
+import Client from "../Client/Client.js";
 
 describe("Teste da classe Account", () => {
   test("verificar se instancia de Account é feita corretamente", () => {
@@ -76,4 +77,57 @@ describe("Teste da classe Account", () => {
     const account = new Account();
     expect(() => account.createPixKey("3776", "CPF")).toThrow("Erro, cpf inválido");
   });
+
+  test('Fazer transferência válida via chave pix com saldo', () => {
+    const account = new Account('9878','0001', 500)
+    expect(account.pixTransfer('EMAIL','teste@teste.com.br', 250)).toBe('Pix realizado com sucesso')
+  })
+
+  test('Fazer transferência via chave pix com saldo insuficiente', () => {
+    const account = new Account('9878','0001', 0)
+    expect(() => account.pixTransfer('EMAIL','teste@teste.com.br', 250)).toThrow('Pix recusado. Saldo insuficiente')
+  })
+
+  test('fazer saque com valor sufuciente', () => {
+    const account = new Account('9878','0001', 500)
+    expect(account.withDraw(300)).toBe('saque realizado com sucesso')
+  })
+
+  test('fazer saque com valor insuficiente', () => {
+    const account = new Account('9878','0001', 500)
+    expect(() => account.withDraw(600)).toThrow('saldo insuficiente')
+
+  })
+
 });
+//atributos - accountNumber, agency, balance, pixKey
+
+// import Account from './Account.js'
+
+// describe('Teste da classe Account', () => {
+//     test('verificar se instância do Account é feita corretamente', () => {
+//         const account = new Account()
+//         expect(account instanceof Account).toBe(true)
+//     })
+//     //casos de teste de deposito
+//     test( 'deposito com valor positivo de 100R$',() => {
+//         const account = new Account(1, 1, 1000);
+//         // expect(account.deposit(100)).toBe(1100)
+
+//         account.deposit(100)    
+//         expect(account.getBalance()).toBe(1100)
+//     });
+//     test( 'deposito com valor negativo -100',() => {
+//         const account = new Account(1,1,1000)
+//         account.deposit(-100);
+
+//         expect(() => account.getBalance()).toThrow('Não é possível depositar valores nagativos')
+//         expect(account.getBalance()).toBe(1000)
+//     });
+//     test( 'deposito com valor não numérico',() => {
+//         const account = new Account(1,1,1000)
+        
+//         expect(() => account.deposit('132')).toThrow('Não é possível depositar valores não numéricos')
+//         expect(account.getBalance()).toBe(1000)
+//     });
+// })
