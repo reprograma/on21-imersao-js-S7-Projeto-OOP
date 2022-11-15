@@ -1,0 +1,14 @@
+/*Client
+Atributos:
+    - nome 
+    - cpf -> privado#
+    - conta -> privado#
+    - renda -> privado#
+
+Metodos:
+    - registrar um cliente
+
+classes
+    - atributos (propriedade)
+    - metodo (funções)
+ */

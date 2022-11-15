@@ -1,0 +1,19 @@
+Account
+- Atributos:
+    - accountNumber
+    - agency -> privado
+    - balance -> privado
+    - pixKey
+
+- Metodos:
+    -depositar
+    - sacar
+    - transferir
+    - criar chave pix
+    - pixKey
+    - criar conta
+    - verificar saldo
+    - verificar a pix
+    - atualizar saldo
+    
+
