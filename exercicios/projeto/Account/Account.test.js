@@ -95,6 +95,18 @@ describe('Teste da classe Account', () => {
       'Erro, cpf inválido'
     );
   });
-});
 
-// email: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+  test('transferência com chave pix com saldo positivo', () => {
+    const account = new Account('0902', '0010', 600);
+    expect(() => account.pixTransfer('EMAIL', 'test@test.com.br', 400)).toBe(
+      'Pix feito com sucesso'
+    );
+  });
+
+  test('transferência com chave pix com saldo negativo', () => {
+    const account = new Account('0902', '0010', 0);
+    expect(() => account.pixTransfer('EMAIL', 'test@test.com.br', 400)).toThrow(
+      'Não foi possível realizar saque. Saldo insuficiente'
+    );
+  });
+});
