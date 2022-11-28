@@ -1,0 +1,30 @@
+Account
+- atributos
+  - accountNumber -> privado
+  - agency -> privado
+  - balance  -> privado
+  - pixKey 
+
+
+- metodos
+  - validar conta criada   FEITO
+  - depositar              FEITO
+  - sacar                  FEITO
+  - criar conta            FEITO
+  - criar chave pix        FEITO
+
+  - verificar saldo        FEITO
+  - verificar chave pix    FEITO
+
+  - tranferir              FEITO
+  - pix * 
+
+@Ana Beatriz Morita (bemorita)
+
+
+
+ - Operações
+As transações permitidas por nosso banco no momento são: Lembrar que para todas as transações é necessário verificar se o cliente possui saldo disponível para realizá-la.
+
+ - PIX
+Com as chaves pix é possível transferir dinheiro para outra conta de nosso banco. Para realizar a transação é necessário ter a chave pix de quem irá receber e o valor a ser transferido via pix.
